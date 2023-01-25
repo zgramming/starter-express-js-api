@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zgramming/ABON-API.git"
+    "url": "git+https://github.com/zgramming/starter-express-js-api.git"
   },
   "keywords": [
     "Express"
@@ -18,9 +18,9 @@
   "author": "Zeffry Reynando",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/zgramming/ABON-API/issues"
+    "url": "https://github.com/zgramming/starter-express-js-api/issues"
   },
-  "homepage": "https://github.com/zgramming/ABON-API#readme",
+  "homepage": "https://github.com/zgramming/starter-express-js-api#readme",
   "devDependencies": {
     "nodemon": "^2.0.20",
     "typescript": "^4.9.4"
