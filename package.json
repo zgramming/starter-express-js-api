@@ -1,7 +1,7 @@
 {
-  "name": "abon-api",
+  "name": "starter-pack-express-js-api",
   "version": "1.0.0",
-  "description": "Absensi Online API",
+  "description": "Starter Pack ExpressJS API",
   "main": "server.ts",
   "scripts": {
     "start": "npx ts-node server.ts",
