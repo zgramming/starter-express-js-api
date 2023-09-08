@@ -1,31 +1,20 @@
-import formidable from "formidable";
-import { existsSync, mkdirSync, renameSync } from "fs";
-import path from "path";
-import { v4 as uuidv4 } from "uuid";
+import type formidable from 'formidable';
+import { existsSync, mkdirSync, renameSync } from 'fs';
+import path from 'path';
+import { v4 as uuidv4 } from 'uuid';
 
-type ValidateFileType = {
-  allowedExtension: Array<
-    | ".jpg"
-    | ".jpeg"
-    | ".png"
-    | ".doc"
-    | ".docx"
-    | ".pdf"
-    | ".ppt"
-    | ".pptx"
-    | ".xls"
-    | ".xlsx"
-  >;
+interface ValidateFileType {
+  allowedExtension: Array<'.jpg' | '.jpeg' | '.png' | '.doc' | '.docx' | '.pdf' | '.ppt' | '.pptx' | '.xls' | '.xlsx'>;
   allowedMimetypes: Array<
-    | "application/msword"
-    | "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-    | "image/jpeg"
-    | "image/png"
-    | "application/pdf"
-    | "application/vnd.ms-powerpoint"
-    | "application/vnd.openxmlformats-officedocument.presentationml.presentation"
-    | "application/vnd.ms-excel"
-    | "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    | 'application/msword'
+    | 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+    | 'image/jpeg'
+    | 'image/png'
+    | 'application/pdf'
+    | 'application/vnd.ms-powerpoint'
+    | 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+    | 'application/vnd.ms-excel'
+    | 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
   >;
 
   /// Mb
@@ -33,42 +22,35 @@ type ValidateFileType = {
 
   /// Give name to file without extension. Example : myfile | thisismydocument
   filename?: string;
-};
+}
 
-type ValidateFileResult = {
+interface ValidateFileResult {
   error?: string;
   name?: string;
-};
+}
 
-export const generateUUID = () => {
-  return uuidv4();
-};
+export const generateUUID = (): string => uuidv4();
 
-export const validateFile = (
-  file: formidable.File,
-  { config }: { config: ValidateFileType }
-): ValidateFileResult => {
+export const validateFile = (file: formidable.File, { config }: { config: ValidateFileType }): ValidateFileResult => {
   const defaultName = generateUUID();
+  const { originalFilename } = file;
+  const { filename: configFilename, allowedExtension, allowedMimetypes } = config;
 
-  if (!file.originalFilename) {
-    return { error: "Nama File tidak valid" };
+  if (originalFilename == null) {
+    return { error: 'Nama File tidak valid' };
   }
 
-  const extension = path.extname(file.originalFilename) as any;
+  const extension = path.extname(originalFilename);
 
-  if (!config.allowedExtension.includes(extension)) {
+  if (!allowedExtension.includes(extension as unknown as any)) {
     return {
-      error: `Extension tidak valid. Extension yang diperbolehkan ${config.allowedExtension.join(
-        ","
-      )}`,
+      error: `Extension tidak valid. Extension yang diperbolehkan ${allowedExtension.join(',')}`,
     };
   }
 
-  if (!config.allowedMimetypes.includes(file.mimetype as unknown as any)) {
+  if (!allowedMimetypes.includes(file.mimetype as unknown as any)) {
     return {
-      error: `Mimetype tidak valid. Mimetype yang diperbolehkan ${config.allowedMimetypes.join(
-        ","
-      )}`,
+      error: `Mimetype tidak valid. Mimetype yang diperbolehkan ${allowedMimetypes.join(',')}`,
     };
   }
 
@@ -79,19 +61,16 @@ export const validateFile = (
     };
   }
 
-  const name = config.filename
-    ? `${config.filename}`
-    : `${defaultName}${extension}`;
+  const name = configFilename !== undefined ? `${config.filename}` : `${defaultName}${extension}`;
 
-  return { name: name };
+  return { name };
 };
 
 export const moveFile = (
   /// /public/images/image.jpg
   oldPath: string,
-  newPath: string
-) => {
-  const name = path.basename(newPath);
+  newPath: string,
+): void => {
   const dir = path.dirname(newPath);
 
   if (!existsSync(dir)) {

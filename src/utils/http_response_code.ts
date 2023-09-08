@@ -86,6 +86,5 @@ export const HTTP_RESPONSE_CODE = {
   /// The user agent requested a resource that cannot legally be provided, such as a web page censored by a government.
   UNVAILABLE_FOR_LEGAL_REASONS: 451,
 
-  
   INTERNAL_SERVER_ERROR: 500,
 };

@@ -1,0 +1,19 @@
+npm init -y
+npm i express dotenv helmet axios bcrypt cors jsonwebtoken cookie-parser errorhandler express-validator sharp multer formidable
+npm i typescript ts-node nodemon @types/bcrypt @types/node @types/jsonwebtoken @types/express eslint eslint-config-airbnb @types/cookie-parser @types/cors @types/errorhandler @types/multer @types/formidable -D
+
+// optional
+// If you need Socket IO
+npm i socket.io
+
+// If you need prisma
+npm i @prisma/client
+npm i prisma -D
+
+npx eslint --init
+// Disable rule make of prettier
+npm install --save-dev eslint-config-prettier
+
+npx tsc --init
+Buat .env .env.file
+Buat script di package.json
